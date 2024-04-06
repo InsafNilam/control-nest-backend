@@ -8,11 +8,11 @@
     "seed": "node --require esbuild-register prisma/seed.ts"
   },
   "scripts": {
-    "start": "node dist/src/index.js",
+    "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.ts",
     "watch": "tsc -w",
-    "build": "tsc",
+    "build": "npm i && tsc",
     "postinstall": "prisma generate"
   },
   "keywords": [],
