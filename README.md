@@ -5,7 +5,7 @@
     The API is built using Node.js and Express, hosted on Railway
     
 #  Server Details
-- URL: (https://control-nest-backend-production.up.railway.app/)[https://control-nest-backend-production.up.railway.app/]
+- URL: [https://control-nest-backend-production.up.railway.app/](https://control-nest-backend-production.up.railway.app/)
 - Technology: Node.js (likely with Express or a similar framework)
 - Hosting: Railway
   
