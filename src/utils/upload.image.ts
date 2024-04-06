@@ -42,7 +42,7 @@ export const uploadImage = async (file: any) => {
 export const deleteImage = async (id: any) => {
   try {
     return new Promise((resolve, reject) => {
-      cloudinary.uploader.destroy(id, (err: any, res: any) => {
+      cloudinary.uploader.destroy(id, (err: any, _res: any) => {
         if (err) {
           reject(err);
         } else {
