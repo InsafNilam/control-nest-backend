@@ -1,11 +1,14 @@
 ### Railway Control Nest Backend API
+
 ## Introduction
-    This repository contains the backend API for Control Nest, a web application designed to manage user data, locations, devices, and image uploads. The API is built using Node.js and Express, hosted on Railway.
+    This repository contains the backend API for Control Nest, a web application designed to manage user data, locations, devices, and image uploads
+    The API is built using Node.js and Express, hosted on Railway
+    
 #  Server Details
 - URL: (https://control-nest-backend-production.up.railway.app/)[https://control-nest-backend-production.up.railway.app/]
 - Technology: Node.js (likely with Express or a similar framework)
 - Hosting: Railway
-- 
+  
 #  API Routes
   - Root
     URL: `/`
