@@ -31,8 +31,8 @@ app.use(
   })
 );
 
-app.use("/", async (_request: Request, response: Response) => {
-  return response.status(200).send("ControlNest Server is Up and Running");
+app.get("/", async (_request: Request, response: Response) => {
+  return response.send("<h1>Hello, This is from ControlNest Server</h1>");
 });
 app.use("/api/user", UserRouter);
 app.use("/api/location", LocationRouter);
