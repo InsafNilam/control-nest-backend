@@ -32,7 +32,62 @@ app.use(
 );
 
 app.get("/", async (_request: Request, response: Response) => {
-  return response.send("<h1>Hello, This is from ControlNest Server</h1>");
+  const title = "ControlNest Server";
+  const content = "Welcome to the ControlNest Server!";
+
+  // Optional: Load data from a database or API
+  // ...
+
+  const template = `
+  <!DOCTYPE html>
+    <html lang="en">
+      <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>${title}</title>
+      <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+        body {
+            background-image: linear-gradient(to bottom right, #FDFCFB, #E2D1C3);
+            font-family: sans-serif;  /* Optional: Set font family */
+            display: flex;  /* Enable flexbox for centering */
+            flex-direction: column;
+            justify-content: center;  /* Center elements horizontally */
+            align-items: center;  /* Center elements vertically */
+        }
+
+        h1 {
+            font-size: 70px;
+            font-weight: 600;
+            background-image: radial-gradient(circle, #553c9a, #ee4b2b);
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            margin: 0;  /* Remove default margin for centering */
+        }
+
+        p {
+            text-align: center;  /* Center paragraph text */
+            color: #4c4a37; 
+            font-family: 'Source Sans Pro', sans-serif; 
+            font-size: 18px; 
+            line-height: 32px; 
+            margin: 0 0 24px;
+        }
+      </style>
+      </head>
+      <body>
+        <h1>${title}</h1>
+        <p>${content}</p>
+      </body>
+    </html>`;
+
+  response.setHeader("Content-Type", "text/html");
+  return response.send(template);
 });
 app.use("/api/user", UserRouter);
 app.use("/api/location", LocationRouter);
