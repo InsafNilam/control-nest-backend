@@ -1,3 +1,4 @@
+import type { Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import express from "express";
 import cors from "cors";
@@ -30,6 +31,9 @@ app.use(
   })
 );
 
+app.use("/", async (_request: Request, response: Response) => {
+  return response.status(200).send("ControlNest Server is Up and Running");
+});
 app.use("/api/user", UserRouter);
 app.use("/api/location", LocationRouter);
 app.use("/api/device", DeviceRouter);
