@@ -8,7 +8,7 @@
     "seed": "node --require esbuild-register prisma/seed.ts"
   },
   "scripts": {
-    "start": "node dist/src/index.js",
+    "start": "node .railway/build/app/dist/src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.ts",
     "watch": "tsc -w",
