@@ -81,8 +81,8 @@ DeviceRouter.post(
 
 DeviceRouter.put(
   "/:id",
-  body("type").isString(),
-  body("status").isString(),
+  body("type").optional().isString(),
+  body("status").optional().isString(),
   protect,
   async (request: Request, response: Response) => {
     const errors = validationResult(request);
@@ -100,10 +100,11 @@ DeviceRouter.put(
       const field = request.body;
       const device = await DeviceService.getDevice(id);
 
-      if (request.files.image) {
-        const image = await uploadImage(request.files.image);
-        field["image"] = image;
+      if (!device) {
+        return response.status(404).json({ error: "Device not found" });
+      }
 
+      if (request.files?.image) {
         if (device?.image && typeof device?.image === "object") {
           const imageID = device.image as JsonObject;
           await deleteImage(imageID.id);
