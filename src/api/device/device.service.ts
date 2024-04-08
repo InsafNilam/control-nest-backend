@@ -90,9 +90,7 @@ export const updateDevice = async (
     return db.device.update({
       where: { id },
       data: {
-        type,
-        image,
-        status,
+        ...dataToUpdate,
       },
       select: {
         id: true,

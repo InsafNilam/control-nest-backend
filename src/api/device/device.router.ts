@@ -87,7 +87,7 @@ DeviceRouter.put(
   async (request: Request, response: Response) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
-      return response.status(400).json({ error: errors.array().join(", ") });
+      return response.status(400).json({ errors: errors.array().join(", ") });
     }
 
     const id: string = request.params.id;
@@ -106,8 +106,8 @@ DeviceRouter.put(
 
       if (request.files?.image) {
         if (device?.image && typeof device?.image === "object") {
-          const imageID = device.image as JsonObject;
-          await deleteImage(imageID.id);
+          const imageID = (device.image as JsonObject).id;
+          await deleteImage(imageID);
 
           const image = await uploadImage(request.files.image);
           field["image"] = image;
