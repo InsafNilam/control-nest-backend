@@ -26,7 +26,7 @@ DeviceRouter.get(
       const devices = await DeviceService.ListDevices(locationId);
       return response.status(200).json(devices);
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );
@@ -45,7 +45,7 @@ DeviceRouter.get(
       const device = await DeviceService.getDevice(id);
       return response.status(200).json(device);
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );
@@ -59,7 +59,7 @@ DeviceRouter.post(
   async (request: Request, response: Response) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
-      return response.status(400).json({ errors: errors.array() });
+      return response.status(400).json({ error: errors.array().join(", ") });
     }
     try {
       const device = request.body;
@@ -70,9 +70,11 @@ DeviceRouter.post(
       }
 
       const newDevice = await DeviceService.createDevice(device);
-      return response.status(201).json(newDevice);
+      return response
+        .status(201)
+        .json({ success: "Device Creation Successfull", device: newDevice });
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );
@@ -85,7 +87,7 @@ DeviceRouter.put(
   async (request: Request, response: Response) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
-      return response.status(400).json({ errors: errors.array() });
+      return response.status(400).json({ error: errors.array().join(", ") });
     }
 
     const id: string = request.params.id;
@@ -115,9 +117,11 @@ DeviceRouter.put(
       }
 
       const updateDevice = await DeviceService.updateDevice(field, id);
-      return response.status(200).json(updateDevice);
+      return response
+        .status(200)
+        .json({ success: "Device Successfully Updated", device: updateDevice });
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );
@@ -140,9 +144,11 @@ DeviceRouter.delete(
       }
 
       await DeviceService.deleteDevice(id);
-      return response.status(200).json("Device Deleted Successfully");
+      return response
+        .status(200)
+        .json({ success: "Device Deleted Successfully" });
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );

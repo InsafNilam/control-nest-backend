@@ -16,7 +16,7 @@ LocationRouter.get(
       const locations = await LocationService.ListLocations();
       return response.status(200).json(locations);
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );
@@ -35,7 +35,7 @@ LocationRouter.get(
       const location = await LocationService.getLocation(id);
       return response.status(200).json(location);
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );
@@ -49,7 +49,7 @@ LocationRouter.post(
   async (request: Request, response: Response) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
-      return response.status(400).json({ errors: errors.array() });
+      return response.status(400).json({ error: errors.array().join(", ") });
     }
     try {
       const location = request.body;
@@ -58,9 +58,14 @@ LocationRouter.post(
         ...location,
         userId: request.user.id,
       });
-      return response.status(201).json(newLocation);
+      return response
+        .status(201)
+        .json({
+          success: "Location Creation was Successfull",
+          location: newLocation,
+        });
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );
@@ -74,7 +79,7 @@ LocationRouter.put(
   async (request: Request, response: Response) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
-      return response.status(400).json({ errors: errors.array() });
+      return response.status(400).json({ error: errors.array().join(", ") });
     }
     const id: string = request.params.id;
     if (id && !isValidObjectId(id))
@@ -85,9 +90,14 @@ LocationRouter.put(
     try {
       const location = request.body;
       const updateLocation = await LocationService.updateLocation(location, id);
-      return response.status(200).json(updateLocation);
+      return response
+        .status(200)
+        .json({
+          success: "Location update was successfull",
+          location: updateLocation,
+        });
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );
@@ -104,9 +114,11 @@ LocationRouter.delete(
 
     try {
       await LocationService.deleteLocation(id);
-      return response.status(200).json("Location Deleted Successfull");
+      return response
+        .status(200)
+        .json({ success: "Location Deleted Successfull" });
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );

@@ -26,7 +26,7 @@ export const cookieToken = (user: User, response: Response) => {
   };
 
   return response.status(200).cookie("token", token, options).json({
-    success: true,
+    success: "User Login Successfull",
     token,
     user,
   });

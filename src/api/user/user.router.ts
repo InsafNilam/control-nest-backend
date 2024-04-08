@@ -15,7 +15,7 @@ UserRouter.get("/", protect, async (_request: Request, response: Response) => {
     const users = await UserService.ListUsers();
     return response.status(200).json(users);
   } catch (err: any) {
-    return response.status(500).json(err.message);
+    return response.status(500).json({ error: err.message });
   }
 });
 
@@ -33,7 +33,7 @@ UserRouter.get(
       const user = await UserService.getUserById(id);
       return response.status(200).json(user);
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );
@@ -46,7 +46,7 @@ UserRouter.post(
   async (request: Request, response: Response) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
-      return response.status(400).json({ errors: errors.array() });
+      return response.status(400).json({ error: errors.array().join(", ") });
     }
     try {
       const user = request.body;
@@ -55,12 +55,14 @@ UserRouter.post(
       if (user) {
         return response
           .status(201)
-          .json({ success: "Registeration Successfull" });
+          .json({ success: "User Registeration Successfull" });
       } else {
-        return response.status(400).json("Invalid user! please check again");
+        return response
+          .status(400)
+          .json({ error: "Invalid user! please check again" });
       }
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );
@@ -72,7 +74,7 @@ UserRouter.post(
   async (request: Request, response: Response) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
-      return response.status(400).json({ errors: errors.array() });
+      return response.status(400).json({ error: errors.array().join(", ") });
     }
     try {
       const user = request.body;
@@ -85,10 +87,10 @@ UserRouter.post(
         const { password, ...rest } = userExists;
         cookieToken(rest, response);
       } else {
-        response.status(400).json("Invalid credentials");
+        response.status(400).json({ error: "Invalid credentials" });
       }
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );
@@ -102,7 +104,7 @@ UserRouter.put(
   async (request: Request, response: Response) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
-      return response.status(400).json({ errors: errors.array() });
+      return response.status(400).json({ error: errors.array().join(", ") });
     }
     const id: string = request.params.id;
     if (id && !isValidObjectId(id))
@@ -113,9 +115,11 @@ UserRouter.put(
     try {
       const user = request.body;
       const updateUser = await UserService.updateUser(user, id);
-      return response.status(200).json(updateUser);
+      return response
+        .status(200)
+        .json({ success: "User update Successfull", user: updateUser });
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );
@@ -132,9 +136,11 @@ UserRouter.delete(
 
     try {
       await UserService.deleteUser(id);
-      return response.status(200).json("User Deleted Successfully");
+      return response
+        .status(200)
+        .json({ success: "User Deleted Successfully" });
     } catch (err: any) {
-      return response.status(500).json(err.message);
+      return response.status(500).json({ error: err.message });
     }
   }
 );
