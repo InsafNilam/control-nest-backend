@@ -3,6 +3,7 @@ import { db } from "../../utils/db.server";
 import { v4 as uuidv4 } from "uuid";
 
 type Device = {
+  id: string;
   serialNumber: string;
   type: string;
   image: JsonValue;
@@ -18,6 +19,7 @@ export const ListDevices = async (
       locationId: id,
     },
     select: {
+      id: true,
       serialNumber: true,
       type: true,
       image: true,
@@ -32,6 +34,7 @@ export const getDevice = async (
   return db.device.findUnique({
     where: { id },
     select: {
+      id: true,
       serialNumber: true,
       type: true,
       image: true,
@@ -55,6 +58,7 @@ export const createDevice = async (
       locationId,
     },
     select: {
+      id: true,
       serialNumber: true,
       type: true,
       image: true,
@@ -91,6 +95,7 @@ export const updateDevice = async (
         status,
       },
       select: {
+        id: true,
         serialNumber: true,
         type: true,
         image: true,
@@ -102,6 +107,7 @@ export const updateDevice = async (
     return db.device.findUnique({
       where: { id },
       select: {
+        id: true,
         serialNumber: true,
         type: true,
         image: true,
